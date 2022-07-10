@@ -321,12 +321,20 @@ for line in file:
     print("Done!!\n")
     
     for z in range(dim_z):
+        np_2d_input = np_3d_data[z].copy()
         np_2d_result = np_3d_output_result[z].copy()
+        
         result_min=np.min(np_2d_result)
         result_max=np.max(np_2d_result)
         np_2d_result = (255*(np_2d_result-result_min)/(result_max-result_min)).astype(np.uint8)
-        cv2.imshow('Result ', np_2d_result)
-        cv2.waitKey(33)
+        
+        input_min=np.min(np_2d_input)
+        input_max=np.max(np_2d_input)
+        np_2d_input = (255*(np_2d_input-input_min)/(input_max-input_min)).astype(np.uint8)
+        
+        output = cv2.hconcat([np_2d_input, np_2d_result])
+        cv2.imshow('Input v.s. Output', output)
+        cv2.waitKey(16)
 
 end_time=time.time()
 used_time=end_time-start_time
